@@ -30,6 +30,11 @@ async function displayProfile(profile) {
 
   profileSection.prepend(profileInfo);
   profileSection.appendChild(profileImage);
+
+  const modalPhotographerName = document.getElementById(
+    "modal-photographer-name"
+  );
+  modalPhotographerName.textContent = profile.name;
 }
 
 async function displayMedia(media, profile) {
@@ -66,7 +71,7 @@ async function displayMedia(media, profile) {
   likesAndPriceSection.classList.add("photograph-likes-and-price");
   likesAndPriceSection.innerHTML = `
     <p>${sum_likes} <i class="fa-solid fa-heart"></i></p>
-    <p>${profile.price}€/jour</p>
+    <p>${profile.price}€ / jour</p>
   `;
   document.body.appendChild(likesAndPriceSection);
   console.log(sum_likes);
@@ -78,4 +83,38 @@ async function init() {
   displayMedia(photographer.media, photographer.profile);
 }
 
+function handleContactForm() {
+  const contactForm = document.getElementById("contact-form");
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    // Get the form data
+    const formData = {
+      firstname: contactForm.firstname.value,
+      lastname: contactForm.lastname.value,
+      email: contactForm.email.value,
+      message: contactForm.message.value,
+    };
+
+    // Validate the form data
+    if (
+      !formData.firstname ||
+      !formData.lastname ||
+      !formData.email ||
+      !formData.message
+    ) {
+      const error = document.getElementById("contact-form-error");
+      error.textContent = "*Veuillez remplir tous les champs";
+      error.style.color = "#690808";
+      error.style.fontSize = "18px";
+      error.style.fontWeight = "bold";
+      return;
+    }
+
+    console.log(formData);
+    closeModal();
+  });
+}
+
 init();
+
+handleContactForm();
