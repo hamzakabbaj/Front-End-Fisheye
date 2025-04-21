@@ -40,32 +40,36 @@ async function displayProfile(profile) {
 async function displayMedia(media, profile) {
   const mediaSection = document.querySelector(".photograph-media");
 
-  console.log(media);
+  // console.log(media);
   const firstName = profile.name.split(" ")[0].replace("-", " ");
   let sum_likes = 0;
-  media.forEach((media) => {
+  for (let i = 0; i < media.length; i++) {
     const mediaItem = document.createElement("article");
     mediaItem.classList.add("photograph-media-item");
-    console.log(media);
-    sum_likes += media.likes;
+    // console.log(media);
+    sum_likes += media[i].likes;
 
-    if ("image" in media) {
+    if ("image" in media[i]) {
       mediaItem.innerHTML = `
-        <img src="assets/images/${firstName}/${media.image}" alt="${media.title}" />
+        <img src="assets/images/${firstName}/${media[i].image}" alt="${media[i].title}" />
     `;
-    } else if ("video" in media) {
+    } else if ("video" in media[i]) {
       mediaItem.innerHTML = `
-        <video src="assets/images/${firstName}/${media.video}" alt="${media.title}" />
+        <video src="assets/images/${firstName}/${media[i].video}" alt="${media[i].title}" />
       `;
     }
     mediaItem.innerHTML += `
     <div class="photograph-media-item-info">
-        <h3>${media.title}</h3>
-        <p>${media.likes} <i class="fa-solid fa-heart"></i></p>
+        <h3>${media[i].title}</h3>
+        <p>${media[i].likes} <i class="fa-solid fa-heart"></i></p>
       </div>
     `;
+
+    mediaItem.addEventListener("click", () => {
+      openLightboxModal(firstName, media, i);
+    });
     mediaSection.appendChild(mediaItem);
-  });
+  }
 
   const likesAndPriceSection = document.createElement("div");
   likesAndPriceSection.classList.add("photograph-likes-and-price");
