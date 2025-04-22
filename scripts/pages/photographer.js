@@ -58,7 +58,9 @@ async function displayMedia(media, profile) {
     `;
     } else if ("video" in media[i]) {
       mediaItem.innerHTML = `
-        <video class="media-item" src="assets/images/${firstName}/${media[i].video}" alt="${media[i].title}" />
+        <video class="media-item" src="assets/images/${firstName}/${media[i].video}" alt="${media[i].title}">
+        </video>
+        <i class="fa-solid fa-play media-item-play"></i>
       `;
     }
     mediaItem.innerHTML += `
@@ -68,11 +70,13 @@ async function displayMedia(media, profile) {
       </div>
     `;
 
-    mediaItem.querySelectorAll(".media-item, h3").forEach((element) => {
-      element.addEventListener("click", () => {
-        openLightboxModal(firstName, media, i);
+    mediaItem
+      .querySelectorAll(".media-item, h3, .media-item-play")
+      .forEach((element) => {
+        element.addEventListener("click", () => {
+          openLightboxModal(firstName, media, i);
+        });
       });
-    });
     mediaItem
       .querySelector(".photograph-media-item-info i")
       .addEventListener("click", () => {
@@ -157,7 +161,7 @@ function addLike(mediaItemId) {
   ).innerHTML = `${mediaItemLikes} <i class="${heart}"></i>`;
   document.querySelector(
     ".photograph-likes-and-price p"
-  ).innerHTML = `${sum_likes} <i class="${heart}"></i>`;
+  ).innerHTML = `${sum_likes} <i class="fa-solid fa-heart"></i>`;
 
   mediaItem
     .querySelector(".photograph-media-item-info i")

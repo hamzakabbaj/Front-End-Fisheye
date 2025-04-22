@@ -51,15 +51,22 @@ function updateLightboxContent(firstName, media, currentIndex) {
   lightboxModal.style.display = "flex";
 
   // Image
-  const lightboxModalImage = document.querySelector(
-    "#lightbox-modal .lightbox-modal-image img"
+  const lightboxModalMedia = lightboxModal.querySelector(
+    "#lightbox-modal .lightbox-modal-image"
   );
-  lightboxModalImage.src = `assets/images/${firstName}/${media[currentIndex].image}`;
-  lightboxModalImage.alt = media[currentIndex].title;
+  lightboxModalMedia.innerHTML = "";
+  if ("image" in media[currentIndex]) {
+    lightboxModalMedia.innerHTML = `
+      <img src="assets/images/${firstName}/${media[currentIndex].image}" alt="${media[currentIndex].title}" />
+    `;
+  } else if ("video" in media[currentIndex]) {
+    lightboxModalMedia.innerHTML = `
+      <video src="assets/images/${firstName}/${media[currentIndex].video}" alt="${media[currentIndex].title}" controls/>
+    `;
+  }
 
   // Title
-  const lightboxModalImageTitle = document.querySelector(
-    "#lightbox-modal .lightbox-modal-image-title"
-  );
-  lightboxModalImageTitle.textContent = media[currentIndex].title;
+  lightboxModalMedia.innerHTML += `
+    <p class="lightbox-modal-media-title">${media[currentIndex].title}</p>
+  `;
 }
