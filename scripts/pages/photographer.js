@@ -45,29 +45,37 @@ async function displayMedia(media, profile) {
   let sum_likes = 0;
   for (let i = 0; i < media.length; i++) {
     const mediaItem = document.createElement("article");
+    mediaItem.id = `media-${media[i].id}`;
     mediaItem.classList.add("photograph-media-item");
     // console.log(media);
     sum_likes += media[i].likes;
 
     if ("image" in media[i]) {
       mediaItem.innerHTML = `
-        <img src="assets/images/${firstName}/${media[i].image}" alt="${media[i].title}" />
+        <img class="media-item" src="assets/images/${firstName}/${media[i].image}" alt="${media[i].title}" />
     `;
     } else if ("video" in media[i]) {
       mediaItem.innerHTML = `
-        <video src="assets/images/${firstName}/${media[i].video}" alt="${media[i].title}" />
+        <video class="media-item" src="assets/images/${firstName}/${media[i].video}" alt="${media[i].title}" />
       `;
     }
     mediaItem.innerHTML += `
     <div class="photograph-media-item-info">
         <h3>${media[i].title}</h3>
-        <p>${media[i].likes} <i class="fa-solid fa-heart"></i></p>
+        <p>${media[i].likes} <i class="fa-regular fa-heart"></i></p>
       </div>
     `;
 
-    mediaItem.addEventListener("click", () => {
-      openLightboxModal(firstName, media, i);
+    mediaItem.querySelectorAll(".media-item, h3").forEach((element) => {
+      element.addEventListener("click", () => {
+        openLightboxModal(firstName, media, i);
+      });
     });
+    mediaItem
+      .querySelector(".photograph-media-item-info i")
+      .addEventListener("click", () => {
+        addLike(mediaItem.id);
+      });
     mediaSection.appendChild(mediaItem);
   }
 
@@ -117,6 +125,38 @@ function handleContactForm() {
     console.log(formData);
     closeModal();
   });
+}
+
+function addLike(mediaItemId) {
+  const mediaItem = document.getElementById(mediaItemId);
+  let mediaItemLikes = parseInt(
+    mediaItem.querySelector(".photograph-media-item-info p").textContent
+  );
+  let sum_likes = parseInt(
+    document.querySelector(".photograph-likes-and-price p").textContent
+  );
+  mediaItem.classList.toggle("liked");
+  if (mediaItem.classList.contains("liked")) {
+    mediaItemLikes++;
+    sum_likes++;
+    heart = "fa-solid fa-heart";
+  } else {
+    mediaItemLikes--;
+    sum_likes--;
+    heart = "fa-regular fa-heart";
+  }
+  mediaItem.querySelector(
+    ".photograph-media-item-info p"
+  ).innerHTML = `${mediaItemLikes} <i class="${heart}"></i>`;
+  document.querySelector(
+    ".photograph-likes-and-price p"
+  ).innerHTML = `${sum_likes} <i class="${heart}"></i>`;
+
+  mediaItem
+    .querySelector(".photograph-media-item-info i")
+    .addEventListener("click", () => {
+      addLike(mediaItem.id);
+    });
 }
 
 init();
