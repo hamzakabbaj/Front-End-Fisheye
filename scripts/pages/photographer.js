@@ -39,6 +39,8 @@ async function displayProfile(profile) {
 
 async function displayMedia(media, profile) {
   const mediaSection = document.querySelector(".photograph-media");
+  // Empty the media section
+  mediaSection.innerHTML = "";
 
   // console.log(media);
   const firstName = profile.name.split(" ")[0].replace("-", " ");
@@ -92,7 +94,12 @@ async function displayMedia(media, profile) {
 async function init() {
   const photographer = await getPhotographer();
   displayProfile(photographer.profile);
-  displayMedia(photographer.media, photographer.profile);
+  sortMedia(photographer, "likes");
+  const sortElement = document.querySelector(".sort-by select");
+  sortElement.addEventListener("change", (e) => {
+    sortMedia(photographer, e.target.value);
+  });
+  return photographer;
 }
 
 function handleContactForm() {
@@ -157,6 +164,18 @@ function addLike(mediaItemId) {
     .addEventListener("click", () => {
       addLike(mediaItem.id);
     });
+}
+
+function sortMedia(photographer, sortValue) {
+  const media = photographer.media;
+  if (sortValue === "likes") {
+    media.sort((a, b) => b.likes - a.likes);
+  } else if (sortValue === "date") {
+    media.sort((a, b) => new Date(b.date) - new Date(a.date));
+  } else if (sortValue === "title") {
+    media.sort((a, b) => a.title.localeCompare(b.title));
+  }
+  displayMedia(media, photographer.profile);
 }
 
 init();

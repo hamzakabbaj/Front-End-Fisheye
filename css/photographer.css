@@ -179,19 +179,19 @@ article.photograph-media-item {
   margin: 0;
 }
 
-.filter {
+.sort-by {
   margin: 20px 100px 50px 100px;
   display: flex;
   align-items: center;
   gap: 30px;
 }
 
-.filter h3 {
+.sort-by h3 {
   font-weight: 700;
   font-size: 18px;
 }
 
-.filter select {
+.sort-by select {
   border: none;
   padding: 10px;
   background-color: #901c1c;
