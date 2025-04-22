@@ -15,6 +15,8 @@ async function getPhotographer() {
 
 async function displayProfile(profile) {
   const profileSection = document.querySelector(".photograph-header");
+  profile.firstName = profile.name.split(" ")[0].replace("-", " ");
+  profileSection.dataset.profile = JSON.stringify(profile);
   console.log(profile);
   const profileInfo = document.createElement("div");
   profileInfo.classList.add("photograph-info");
@@ -39,11 +41,12 @@ async function displayProfile(profile) {
 
 async function displayMedia(media, profile) {
   const mediaSection = document.querySelector(".photograph-media");
+  // Save the media in the photographer object
+  setMedia(media);
   // Empty the media section
   mediaSection.innerHTML = "";
 
   // console.log(media);
-  const firstName = profile.name.split(" ")[0].replace("-", " ");
   let sum_likes = 0;
   for (let i = 0; i < media.length; i++) {
     const mediaItem = document.createElement("article");
@@ -54,11 +57,11 @@ async function displayMedia(media, profile) {
 
     if ("image" in media[i]) {
       mediaItem.innerHTML = `
-        <img class="media-item" src="assets/images/${firstName}/${media[i].image}" alt="${media[i].title}" />
+        <img class="media-item" src="assets/images/${profile.firstName}/${media[i].image}" alt="${media[i].title}" />
     `;
     } else if ("video" in media[i]) {
       mediaItem.innerHTML = `
-        <video class="media-item" src="assets/images/${firstName}/${media[i].video}" alt="${media[i].title}">
+        <video class="media-item" src="assets/images/${profile.firstName}/${media[i].video}" alt="${media[i].title}">
         </video>
         <i class="fa-solid fa-play media-item-play"></i>
       `;
@@ -74,7 +77,7 @@ async function displayMedia(media, profile) {
       .querySelectorAll(".media-item, h3, .media-item-play")
       .forEach((element) => {
         element.addEventListener("click", () => {
-          openLightboxModal(firstName, media, i);
+          openLightboxModal(i);
         });
       });
     mediaItem
@@ -98,10 +101,10 @@ async function displayMedia(media, profile) {
 async function init() {
   const photographer = await getPhotographer();
   displayProfile(photographer.profile);
-  sortMedia(photographer, "likes");
-  const sortElement = document.querySelector(".sort-by select");
-  sortElement.addEventListener("change", (e) => {
-    sortMedia(photographer, e.target.value);
+  displaySortedMedia(photographer, "likes");
+
+  document.querySelector(".sort-by select").addEventListener("change", (e) => {
+    displaySortedMedia(photographer, e.target.value);
   });
   return photographer;
 }
@@ -170,7 +173,7 @@ function addLike(mediaItemId) {
     });
 }
 
-function sortMedia(photographer, sortValue) {
+function displaySortedMedia(photographer, sortValue) {
   const media = photographer.media;
   if (sortValue === "likes") {
     media.sort((a, b) => b.likes - a.likes);
@@ -180,6 +183,21 @@ function sortMedia(photographer, sortValue) {
     media.sort((a, b) => a.title.localeCompare(b.title));
   }
   displayMedia(media, photographer.profile);
+}
+
+function setMedia(media) {
+  const mediaSection = document.querySelector(".photograph-media");
+  mediaSection.dataset.media = JSON.stringify(media);
+}
+
+function getMedia() {
+  const mediaSection = document.querySelector(".photograph-media");
+  return JSON.parse(mediaSection.dataset.media);
+}
+
+function getProfile() {
+  const profileSection = document.querySelector(".photograph-header");
+  return JSON.parse(profileSection.dataset.profile);
 }
 
 init();

@@ -1,6 +1,11 @@
-function openLightboxModal(firstName, media, currentIndex) {
-  console.log("Open lightbox modal");
-  updateLightboxContent(firstName, media, currentIndex);
+function openLightboxModal(currentIndex) {
+  const media = getMedia();
+  const profile = getProfile();
+  currentIndex = parseInt(currentIndex);
+  const nextIndex = (currentIndex + 1) % media.length;
+  const previousIndex = (currentIndex - 1 + media.length) % media.length;
+  console.log(previousIndex, currentIndex, nextIndex);
+  updateLightboxContent(profile.firstName, media, currentIndex);
 
   const lightboxModalPrevious = document.querySelector(
     "#lightbox-modal .lightbox-modal-previous"
@@ -9,41 +14,59 @@ function openLightboxModal(firstName, media, currentIndex) {
     "#lightbox-modal .lightbox-modal-next"
   );
 
-  lightboxModalNext.setAttribute(
-    "nextIndex",
-    (currentIndex + 1) % media.length
-  );
-  lightboxModalPrevious.setAttribute(
-    "previousIndex",
-    (currentIndex - 1 + media.length) % media.length
-  );
+  lightboxModalNext.setAttribute("nextIndex", nextIndex);
+  lightboxModalPrevious.setAttribute("previousIndex", previousIndex);
 
-  lightboxModalNext.addEventListener("click", () => {
-    const newIndex = parseInt(lightboxModalNext.getAttribute("nextIndex"));
-    updateLightboxContent(firstName, media, newIndex);
-    lightboxModalPrevious.setAttribute(
-      "previousIndex",
-      (newIndex - 1 + media.length) % media.length
-    );
-    lightboxModalNext.setAttribute("nextIndex", (newIndex + 1) % media.length);
-  });
+  lightboxModalNext.removeEventListener("click", displayNextMedia);
+  lightboxModalPrevious.removeEventListener("click", displayPreviousMedia);
 
-  lightboxModalPrevious.addEventListener("click", () => {
-    const newIndex = parseInt(
-      lightboxModalPrevious.getAttribute("previousIndex")
-    );
-    updateLightboxContent(firstName, media, newIndex);
-    lightboxModalNext.setAttribute("nextIndex", (newIndex + 1) % media.length);
-    lightboxModalPrevious.setAttribute(
-      "previousIndex",
-      (newIndex - 1 + media.length) % media.length
-    );
-  });
+  lightboxModalNext.addEventListener("click", displayNextMedia);
+  lightboxModalPrevious.addEventListener("click", displayPreviousMedia);
+}
+function displayNextMedia() {
+  const lightboxModalNext = document.querySelector(
+    "#lightbox-modal .lightbox-modal-next"
+  );
+  const newCurrentIndex = parseInt(lightboxModalNext.getAttribute("nextIndex"));
+  updateArrows(newCurrentIndex);
+}
+
+function displayPreviousMedia() {
+  const lightboxModalPrevious = document.querySelector(
+    "#lightbox-modal .lightbox-modal-previous"
+  );
+  const newCurrentIndex = parseInt(
+    lightboxModalPrevious.getAttribute("previousIndex")
+  );
+  updateArrows(newCurrentIndex);
+}
+
+function updateArrows(newCurrentIndex) {
+  const lightboxModalPrevious = document.querySelector(
+    "#lightbox-modal .lightbox-modal-previous"
+  );
+  const lightboxModalNext = document.querySelector(
+    "#lightbox-modal .lightbox-modal-next"
+  );
+  const media = getMedia();
+  const profile = getProfile();
+  const newNextIndex = (newCurrentIndex + 1) % media.length;
+  const newPreviousIndex = (newCurrentIndex - 1 + media.length) % media.length;
+  console.log(newPreviousIndex, newCurrentIndex, newNextIndex);
+  updateLightboxContent(profile.firstName, media, newCurrentIndex);
+  lightboxModalPrevious.setAttribute("previousIndex", newPreviousIndex);
+  lightboxModalNext.setAttribute("nextIndex", newNextIndex);
 }
 
 function closeLightboxModal() {
   const lightboxModal = document.getElementById("lightbox-modal");
   lightboxModal.style.display = "none";
+  const lightboxModalPrevious = lightboxModal.querySelector(
+    ".lightbox-modal-previous"
+  );
+  const lightboxModalNext = lightboxModal.querySelector(".lightbox-modal-next");
+  lightboxModalNext.removeEventListener("click", displayNextMedia);
+  lightboxModalPrevious.removeEventListener("click", displayPreviousMedia);
 }
 
 function updateLightboxContent(firstName, media, currentIndex) {
