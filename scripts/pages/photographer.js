@@ -57,23 +57,23 @@ function displayMedia(media, profile) {
 
     if ("image" in media[i]) {
       mediaItem.innerHTML = `
-        <div class="photograph-media-item-container">
-          <img class="media-item" src="assets/images/${profile.firstName}/${media[i].image}" alt="${media[i].title}" />
+        <div class="photograph-media-item-container" >
+          <img class="media-item" src="assets/images/${profile.firstName}/${media[i].image}" alt="${media[i].title}" tabindex="0" role="button" aria-label="Voir l'image ${media[i].title}"/>
         </div>
     `;
     } else if ("video" in media[i]) {
       mediaItem.innerHTML = `
-        <div class="photograph-media-item-container">
-          <video class="media-item" src="assets/images/${profile.firstName}/${media[i].video}" alt="${media[i].title}">
+        <div class="photograph-media-item-container" >
+          <video class="media-item" src="assets/images/${profile.firstName}/${media[i].video}" alt="${media[i].title}" tabindex="0" role="button" aria-label="Voir la vidéo ${media[i].title}">
           </video>
-          <i class="fa-solid fa-play media-item-play"></i>
+          <i class="fa-solid fa-play media-item-play" aria-label="Lancer la vidéo ${media[i].title}"></i>
         </div>
       `;
     }
     mediaItem.innerHTML += `
     <div class="photograph-media-item-info">
         <h3>${media[i].title}</h3>
-        <p>${media[i].likes} <i class="fa-regular fa-heart"></i></p>
+        <p ><span aria-label="${media[i].likes} likes">${media[i].likes}</span> <i class="fa-regular fa-heart" aria-label="Liker l'image ${media[i].title}" role="button" tabindex="0"></i></p>
       </div>
     `;
 
@@ -84,10 +84,29 @@ function displayMedia(media, profile) {
           openLightboxModal(i);
         });
       });
+
+    mediaItem
+      .querySelectorAll(".media-item, h3, .media-item-play")
+      .forEach((element) => {
+        element.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            openLightboxModal(i);
+          }
+        });
+      });
+
     mediaItem
       .querySelector(".photograph-media-item-info i")
       .addEventListener("click", () => {
         addLike(mediaItem.id);
+      });
+
+    mediaItem
+      .querySelector(".photograph-media-item-info i")
+      .addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          addLike(mediaItem.id);
+        }
       });
     mediaSection.appendChild(mediaItem);
   }
@@ -116,6 +135,9 @@ async function init() {
       document.querySelector(".lightbox-modal-previous")?.click();
     } else if (event.key === "ArrowRight") {
       document.querySelector(".lightbox-modal-next")?.click();
+    } else if (event.key === "Escape") {
+      closeLightboxModal();
+      closeModal();
     }
   });
   return photographer;
@@ -173,15 +195,23 @@ function addLike(mediaItemId) {
   }
   mediaItem.querySelector(
     ".photograph-media-item-info p"
-  ).innerHTML = `${mediaItemLikes} <i class="${heart}"></i>`;
+  ).innerHTML = `${mediaItemLikes} <i class="${heart}" aria-label="${mediaItemLikes} likes" role="button" tabindex="0"></i>`;
   document.querySelector(
     ".photograph-likes-and-price p"
-  ).innerHTML = `${sum_likes} <i class="fa-solid fa-heart"></i>`;
+  ).innerHTML = `${sum_likes} <i class="fa-solid fa-heart" aria-label="${sum_likes} likes" role="button" tabindex="0"></i>`;
 
   mediaItem
     .querySelector(".photograph-media-item-info i")
     .addEventListener("click", () => {
       addLike(mediaItem.id);
+    });
+
+  mediaItem
+    .querySelector(".photograph-media-item-info i")
+    .addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        addLike(mediaItem.id);
+      }
     });
 }
 

@@ -7,6 +7,10 @@ function photographerTemplate(data) {
     const article = document.createElement("article");
     const link = document.createElement("a");
     link.setAttribute("href", `photographer.html?id=${id}`);
+    link.setAttribute(
+      "aria-label",
+      `Voir la page du photographe ${name} basé à ${city}, ${country}`
+    );
     // Image
     const img = document.createElement("img");
     img.setAttribute("src", picture);
@@ -15,7 +19,6 @@ function photographerTemplate(data) {
     // Title
     const h2 = document.createElement("h2");
     h2.textContent = name;
-    h2.setAttribute("aria-label", `${name}`);
 
     // City and country
     const cityAndCountry = document.createElement("h3");
