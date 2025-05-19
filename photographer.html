@@ -38,10 +38,16 @@
       </div>
       <div class="sort-by">
         <h3>Trier par</h3>
-        <select name="sort" id="sort" aria-label="Trier par">
-          <option value="likes">Popularité</option>
-          <option value="date">Date</option>
-          <option value="title">Titre</option>
+        <select
+          name="sort"
+          id="sort"
+          aria-label="Trier par popularité, date ou titre"
+        >
+          <option value="likes" aria-label="Trier par popularité">
+            Popularité
+          </option>
+          <option value="date" aria-label="Trier par date">Date</option>
+          <option value="title" aria-label="Trier par titre">Titre</option>
         </select>
       </div>
       <div class="photograph-media"></div>
@@ -55,7 +61,11 @@
       <div class="modal">
         <header>
           <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <img
+            src="assets/icons/close.svg"
+            onclick="closeModal()"
+            aria-label="Fermer le formulaire de contact"
+          />
         </header>
 
         <form id="contact-form">
@@ -78,20 +88,20 @@
     <div id="lightbox-modal" aria-label="image closeup view">
       <div class="lightbox-modal-content">
         <button class="lightbox-modal-previous" aria-label="previous image">
-          <i class="fas fa-chevron-left"></i>
+          <span class="fas fa-chevron-left"></span>
         </button>
         <div class="lightbox-modal-image">
           <p class="lightbox-modal-image-title"></p>
         </div>
         <button class="lightbox-modal-next" aria-label="next image">
-          <i class="fas fa-chevron-right"></i>
+          <span class="fas fa-chevron-right"></span>
         </button>
         <button
           class="lightbox-modal-close"
           onclick="closeLightboxModal()"
-          aria-label="close dialog"
+          aria-label="Fermer la fenêtre lightbox"
         >
-          <i class="fas fa-times"></i>
+          <span class="fas fa-times"></span>
         </button>
       </div>
     </div>
