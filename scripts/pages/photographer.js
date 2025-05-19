@@ -57,16 +57,16 @@ function displayMedia(media, profile) {
 
     if ("image" in media[i]) {
       mediaItem.innerHTML = `
-        <div class="photograph-media-item-container" >
-          <img class="media-item" src="assets/images/${profile.firstName}/${media[i].image}" alt="${media[i].title}" tabindex="0" role="button" aria-label="Voir l'image ${media[i].title}"/>
+        <div class="photograph-media-item-container" aria-label="Voir l'image ${media[i].title}">
+          <img class="media-item" src="assets/images/${profile.firstName}/${media[i].image}" alt="${media[i].title}" tabindex="0" role="button"/>
         </div>
     `;
     } else if ("video" in media[i]) {
       mediaItem.innerHTML = `
-        <div class="photograph-media-item-container" >
-          <video class="media-item" src="assets/images/${profile.firstName}/${media[i].video}" alt="${media[i].title}" tabindex="0" role="button" aria-label="Voir la vidéo ${media[i].title}">
+        <div class="photograph-media-item-container" aria-label="Voir la vidéo ${media[i].title}">
+          <video class="media-item" src="assets/images/${profile.firstName}/${media[i].video}" alt="${media[i].title}">
           </video>
-          <i class="fa-solid fa-play media-item-play" aria-label="Lancer la vidéo ${media[i].title}"></i>
+          <i class="fa-solid fa-play media-item-play" aria-label="Lancer la vidéo ${media[i].title}" role="button" tabindex="0"></i>
         </div>
       `;
     }
