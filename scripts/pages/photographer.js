@@ -73,7 +73,7 @@ function displayMedia(media, profile) {
     mediaItem.innerHTML += `
     <div class="photograph-media-item-info">
         <h3>${media[i].title}</h3>
-        <p ><span aria-label="${media[i].likes} likes">${media[i].likes}</span> <i class="fa-regular fa-heart" aria-label="Liker l'image ${media[i].title}" role="button" tabindex="0"></i></p>
+        <p ><span aria-label="${media[i].likes} likes">${media[i].likes}</span> <i class="fa-regular fa-heart" aria-label="Aimez l'image ${media[i].title}" role="button" tabindex="0"></i></p>
       </div>
     `;
 
