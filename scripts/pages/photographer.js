@@ -73,7 +73,7 @@ function displayMedia(media, profile) {
     mediaItem.innerHTML += `
     <div class="photograph-media-item-info">
         <h3>${media[i].title}</h3>
-        <p ><span aria-label="${media[i].likes} likes">${media[i].likes}</span> <i class="fa-regular fa-heart" aria-label="Aimez l'image ${media[i].title}" role="button" tabindex="0"></i></p>
+        <p ><span aria-label="${media[i].likes} mentions j'aime">${media[i].likes}</span> <i class="fa-regular fa-heart" aria-label="Aimer l'image ${media[i].title}" role="button" tabindex="0"></i></p>
       </div>
     `;
 
@@ -195,10 +195,10 @@ function addLike(mediaItemId) {
   }
   mediaItem.querySelector(
     ".photograph-media-item-info p"
-  ).innerHTML = `${mediaItemLikes} <i class="${heart}" aria-label="${mediaItemLikes} likes" role="button" tabindex="0"></i>`;
+  ).innerHTML = `${mediaItemLikes} <i class="${heart}" aria-label="${mediaItemLikes} j'aime" role="button" tabindex="0"></i>`;
   document.querySelector(
     ".photograph-likes-and-price p"
-  ).innerHTML = `${sum_likes} <i class="fa-solid fa-heart" aria-label="${sum_likes} likes" role="button" tabindex="0"></i>`;
+  ).innerHTML = `${sum_likes} <i class="fa-solid fa-heart" aria-label="${sum_likes} mentions j'aime" role="button" tabindex="0"></i>`;
 
   mediaItem
     .querySelector(".photograph-media-item-info i")

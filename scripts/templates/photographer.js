@@ -9,7 +9,7 @@ function photographerTemplate(data) {
     link.setAttribute("href", `photographer.html?id=${id}`);
     link.setAttribute(
       "aria-label",
-      `Voir la page du photographe ${name} basé à ${city}, ${country}`
+      `Voir le profil du photographe ${name} situé à ${city}, ${country}`
     );
     // Image
     const img = document.createElement("img");
@@ -25,16 +25,16 @@ function photographerTemplate(data) {
     cityAndCountry.textContent = `${city}, ${country}`;
     cityAndCountry.setAttribute(
       "aria-label",
-      `Ville et pays du photographe : ${city}, ${country}`
+      `Localisation du photographe : ${city}, ${country}`
     );
     // Tagline
     const tagline_p = document.createElement("p");
     tagline_p.textContent = tagline;
-    tagline_p.setAttribute("aria-label", `Tagline du photographe : ${tagline}`);
+    tagline_p.setAttribute("aria-label", `Slogan du photographe : ${tagline}`);
     // Price
     const price_p = document.createElement("p");
     price_p.textContent = `${price}€/jour`;
-    price_p.setAttribute("aria-label", `Prix du photographe : ${price}€/jour`);
+    price_p.setAttribute("aria-label", `Tarif journalier : ${price}€/jour`);
 
     // Build Card
     article.appendChild(link);

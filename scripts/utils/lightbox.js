@@ -90,6 +90,6 @@ function updateLightboxContent(firstName, media, currentIndex) {
 
   // Title
   lightboxModalMedia.innerHTML += `
-    <p class="lightbox-modal-media-title">${media[currentIndex].title}</p>
+    <p class="lightbox-modal-media-title" aria-label="Titre du média : ${media[currentIndex].title}">${media[currentIndex].title}</p>
   `;
 }
