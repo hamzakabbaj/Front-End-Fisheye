@@ -17,18 +17,28 @@
   <body>
     <header>
       <a href="index.html">
-        <img src="assets/images/logo.png" class="logo" />
+        <img
+          src="assets/images/logo.png"
+          class="logo"
+          alt="Fisheye Home page"
+        />
       </a>
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">
-          Contactez-moi
-        </button>
+        <div class="photograph-contact-button-container">
+          <button
+            class="contact_button"
+            onclick="displayModal()"
+            aria-label="Contactez-moi"
+          >
+            Contactez-moi
+          </button>
+        </div>
       </div>
       <div class="sort-by">
         <h3>Trier par</h3>
-        <select name="sort" id="sort">
+        <select name="sort" id="sort" aria-label="Trier par">
           <option value="likes">Popularité</option>
           <option value="date">Date</option>
           <option value="title">Titre</option>
@@ -60,20 +70,22 @@
         </form>
       </div>
     </div>
-    <div id="lightbox-modal">
+    <div id="lightbox-modal" aria-label="image closeup view">
       <div class="lightbox-modal-content">
-        <button
-          class="lightbox-modal-previous" 
-        >
+        <button class="lightbox-modal-previous" aria-label="previous image">
           <i class="fas fa-chevron-left"></i>
         </button>
         <div class="lightbox-modal-image">
           <p class="lightbox-modal-image-title"></p>
         </div>
-        <button class="lightbox-modal-next" ">
+        <button class="lightbox-modal-next" aria-label="next image">
           <i class="fas fa-chevron-right"></i>
         </button>
-        <button class="lightbox-modal-close" onclick="closeLightboxModal()">
+        <button
+          class="lightbox-modal-close"
+          onclick="closeLightboxModal()"
+          aria-label="close dialog"
+        >
           <i class="fas fa-times"></i>
         </button>
       </div>

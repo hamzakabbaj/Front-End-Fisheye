@@ -123,6 +123,14 @@ form input {
   gap: 60px;
 }
 
+.photograph-contact-button-container {
+  margin-right: 45px;
+}
+
+.photograph-media-item-container {
+  position: relative;
+}
+
 article.photograph-media-item {
   display: flex;
   flex-direction: column;
@@ -153,6 +161,7 @@ article.photograph-media-item {
   color: #901c1c;
   font-size: 24px;
   font-weight: 400;
+  width: calc((100vw - 200px - 120px) / 3 - 50px);
 }
 
 .photograph-media-item-info p {

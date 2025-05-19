@@ -57,13 +57,17 @@ async function displayMedia(media, profile) {
 
     if ("image" in media[i]) {
       mediaItem.innerHTML = `
-        <img class="media-item" src="assets/images/${profile.firstName}/${media[i].image}" alt="${media[i].title}" />
+        <div class="photograph-media-item-container">
+          <img class="media-item" src="assets/images/${profile.firstName}/${media[i].image}" alt="${media[i].title}" />
+        </div>
     `;
     } else if ("video" in media[i]) {
       mediaItem.innerHTML = `
-        <video class="media-item" src="assets/images/${profile.firstName}/${media[i].video}" alt="${media[i].title}">
-        </video>
-        <i class="fa-solid fa-play media-item-play"></i>
+        <div class="photograph-media-item-container">
+          <video class="media-item" src="assets/images/${profile.firstName}/${media[i].video}" alt="${media[i].title}">
+          </video>
+          <i class="fa-solid fa-play media-item-play"></i>
+        </div>
       `;
     }
     mediaItem.innerHTML += `

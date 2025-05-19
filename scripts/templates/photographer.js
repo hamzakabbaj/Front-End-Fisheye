@@ -10,12 +10,12 @@ function photographerTemplate(data) {
     // Image
     const img = document.createElement("img");
     img.setAttribute("src", picture);
-    img.setAttribute("alt", `Photo de ${name}`);
+    img.setAttribute("alt", `${name}`);
 
     // Title
     const h2 = document.createElement("h2");
     h2.textContent = name;
-    h2.setAttribute("aria-label", `Nom du photographe : ${name}`);
+    h2.setAttribute("aria-label", `${name}`);
 
     // City and country
     const cityAndCountry = document.createElement("h3");
