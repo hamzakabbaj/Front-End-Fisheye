@@ -13,7 +13,7 @@ async function getPhotographer() {
   return { profile, media };
 }
 
-async function displayProfile(profile) {
+function displayProfile(profile) {
   const profileSection = document.querySelector(".photograph-header");
   profile.firstName = profile.name.split(" ")[0].replace("-", " ");
   profileSection.dataset.profile = JSON.stringify(profile);
@@ -39,7 +39,7 @@ async function displayProfile(profile) {
   modalPhotographerName.textContent = profile.name;
 }
 
-async function displayMedia(media, profile) {
+function displayMedia(media, profile) {
   const mediaSection = document.querySelector(".photograph-media");
   // Save the media in the photographer object
   setMedia(media);
@@ -109,6 +109,14 @@ async function init() {
 
   document.querySelector(".sort-by select").addEventListener("change", (e) => {
     displaySortedMedia(photographer, e.target.value);
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowLeft") {
+      document.querySelector(".lightbox-modal-previous")?.click();
+    } else if (event.key === "ArrowRight") {
+      document.querySelector(".lightbox-modal-next")?.click();
+    }
   });
   return photographer;
 }
