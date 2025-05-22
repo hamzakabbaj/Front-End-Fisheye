@@ -9,7 +9,7 @@ function photographerTemplate(data) {
     link.setAttribute("href", `photographer.html?id=${id}`);
     link.setAttribute(
       "aria-label",
-      `Voir le profil du photographe ${name} situé à ${city}, ${country}`
+      `Voir le profil du photographe ${name} situé à ${city}, ${country}. Slogan : ${tagline}. Prix journalier : ${price}€ par jour.`
     );
     // Image
     const img = document.createElement("img");
@@ -18,6 +18,7 @@ function photographerTemplate(data) {
 
     // Title
     const h2 = document.createElement("h2");
+    h2.setAttribute("aria-label", `Nom du photographe : ${name}`);
     h2.textContent = name;
 
     // City and country

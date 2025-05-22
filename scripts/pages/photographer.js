@@ -20,10 +20,15 @@ function displayProfile(profile) {
   console.log(profile);
   const profileInfo = document.createElement("div");
   profileInfo.classList.add("photograph-info");
+  profileInfo.setAttribute(
+    "aria-label",
+    `Informations sur le photographe ${profile.name}`
+  );
+  profileInfo.setAttribute("tabindex", "0");
   profileInfo.innerHTML = `
-    <h2>${profile.name}</h2>
-    <h3>${profile.city}, ${profile.country}</h3>
-    <p>${profile.tagline}</p>
+    <h2 tabindex="0" aria-label="Nom du photographe : ${profile.name}">${profile.name}</h2>
+    <h3 tabindex="0" aria-label="Localisation du photographe : ${profile.city}, ${profile.country}">${profile.city}, ${profile.country}</h3>
+    <p tabindex="0" aria-label="Slogan du photographe : ${profile.tagline}">${profile.tagline}</p>
   `;
 
   const profileImage = document.createElement("img");
@@ -121,60 +126,6 @@ function displayMedia(media, profile) {
   console.log(sum_likes);
 }
 
-async function init() {
-  const photographer = await getPhotographer();
-  displayProfile(photographer.profile);
-  displaySortedMedia(photographer, "likes");
-
-  document.querySelector(".sort-by select").addEventListener("change", (e) => {
-    displaySortedMedia(photographer, e.target.value);
-  });
-
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "ArrowLeft") {
-      document.querySelector(".lightbox-modal-previous")?.click();
-    } else if (event.key === "ArrowRight") {
-      document.querySelector(".lightbox-modal-next")?.click();
-    } else if (event.key === "Escape") {
-      closeLightboxModal();
-      closeModal();
-    }
-  });
-  return photographer;
-}
-
-function handleContactForm() {
-  const contactForm = document.getElementById("contact-form");
-  contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    // Get the form data
-    const formData = {
-      firstname: contactForm.firstname.value,
-      lastname: contactForm.lastname.value,
-      email: contactForm.email.value,
-      message: contactForm.message.value,
-    };
-
-    // Validate the form data
-    if (
-      !formData.firstname ||
-      !formData.lastname ||
-      !formData.email ||
-      !formData.message
-    ) {
-      const error = document.getElementById("contact-form-error");
-      error.textContent = "*Veuillez remplir tous les champs";
-      error.style.color = "#690808";
-      error.style.fontSize = "18px";
-      error.style.fontWeight = "bold";
-      return;
-    }
-
-    console.log(formData);
-    closeModal();
-  });
-}
-
 function addLike(mediaItemId) {
   const mediaItem = document.getElementById(mediaItemId);
   let mediaItemLikes = parseInt(
@@ -242,6 +193,61 @@ function getProfile() {
   return JSON.parse(profileSection.dataset.profile);
 }
 
-init();
+function handleContactForm() {
+  const contactForm = document.getElementById("contact-form");
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    // Get the form data
+    const formData = {
+      firstname: contactForm.firstname.value,
+      lastname: contactForm.lastname.value,
+      email: contactForm.email.value,
+      message: contactForm.message.value,
+    };
 
-handleContactForm();
+    // Validate the form data
+    if (
+      !formData.firstname ||
+      !formData.lastname ||
+      !formData.email ||
+      !formData.message
+    ) {
+      const error = document.getElementById("contact-form-error");
+      error.textContent = "*Veuillez remplir tous les champs";
+      error.style.color = "#690808";
+      error.style.fontSize = "18px";
+      error.style.fontWeight = "bold";
+      return;
+    }
+
+    console.log(formData);
+    closeModal();
+  });
+}
+
+async function init() {
+  const photographer = await getPhotographer();
+  displayProfile(photographer.profile);
+  displaySortedMedia(photographer, "likes");
+
+  document.querySelector(".sort-by select").addEventListener("change", (e) => {
+    displaySortedMedia(photographer, e.target.value);
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowLeft") {
+      document.querySelector(".lightbox-modal-previous")?.click();
+    } else if (event.key === "ArrowRight") {
+      document.querySelector(".lightbox-modal-next")?.click();
+    } else if (event.key === "Escape") {
+      closeLightboxModal();
+      closeModal();
+    }
+  });
+
+  handleContactForm();
+
+  return photographer;
+}
+
+init();
