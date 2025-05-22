@@ -2,17 +2,23 @@
 
 async function getPhotographer() {
   const photographerId = window.location.search.split("=")[1];
-  const response = await fetch("data/photographers.json");
-  const photographers = await response.json();
-  const profile = photographers["photographers"].find(
-    (photographer) => parseInt(photographer.id) === parseInt(photographerId)
-  );
 
-  const media = photographers["media"].filter(
-    (media) => parseInt(media.photographerId) === parseInt(photographerId)
-  );
+  try {
+    const response = await fetch("data/photographers.json");
+    const photographers = await response.json();
+    const profile = photographers["photographers"].find(
+      (photographer) => parseInt(photographer.id) === parseInt(photographerId)
+    );
 
-  return { profile, media };
+    const media = photographers["media"].filter(
+      (media) => parseInt(media.photographerId) === parseInt(photographerId)
+    );
+
+    return { profile, media };
+  } catch (error) {
+    console.error("Error fetching photographer data:", error);
+    throw error;
+  }
 }
 
 // ------------------------ DISPLAY DATA
@@ -235,6 +241,11 @@ function setMedia(media) {
 
 async function init() {
   const photographer = await getPhotographer();
+  if (!photographer.profile) {
+    window.location.href = "index.html";
+    return;
+  }
+
   displayProfile(photographer.profile);
   displaySortedMedia(photographer, "likes");
 
