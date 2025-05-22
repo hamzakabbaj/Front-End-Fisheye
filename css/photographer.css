@@ -1,3 +1,7 @@
+main {
+  margin-bottom: 100px;
+}
+
 #contact_modal {
   display: none;
 }
@@ -153,7 +157,6 @@ article.photograph-media-item {
 .photograph-media-item-info {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .photograph-media-item-info h3 {
@@ -168,6 +171,7 @@ article.photograph-media-item {
   margin: 0;
   color: #901c1c;
   font-size: 16px;
+  padding-top: 5px;
 }
 
 .photograph-likes-and-price {
