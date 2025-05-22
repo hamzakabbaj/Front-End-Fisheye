@@ -37,19 +37,29 @@
         </div>
       </div>
       <div class="sort-by">
-        <label for="sort" aria-label="Trier par popularité, date ou titre"
-          >Trier par</label
+        <span id="sort-description" class="sr-only"
+          >Choisissez comment trier les médias du photographe</span
         >
-        <select
-          name="sort"
-          id="sort"
-          aria-label="Trier par popularité, date ou titre"
-        >
-          <option value="likes" aria-label="Trier par popularité">
+        <label for="sort" id="sort-label">Trier par</label>
+        <select name="sort" id="sort" aria-label="Options de tri des médias">
+          <option
+            value="likes"
+            aria-label="Tri par nombre de likes, du plus populaire au moins populaire"
+          >
             Popularité
           </option>
-          <option value="date" aria-label="Trier par date">Date</option>
-          <option value="title" aria-label="Trier par titre">Titre</option>
+          <option
+            value="date"
+            aria-label="Tri par date, du plus récent au plus ancien"
+          >
+            Date
+          </option>
+          <option
+            value="title"
+            aria-label="Tri par ordre alphabétique du titre"
+          >
+            Titre
+          </option>
         </select>
       </div>
       <div class="photograph-media"></div>
