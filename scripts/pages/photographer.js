@@ -60,68 +60,11 @@ function displayMedia(media, profile) {
   // Empty the media section
   mediaSection.innerHTML = "";
 
-  // console.log(media);
   let sum_likes = 0;
   for (let i = 0; i < media.length; i++) {
-    const mediaItem = document.createElement("article");
-    mediaItem.id = `media-${media[i].id}`;
-    mediaItem.classList.add("photograph-media-item");
-    // console.log(media);
+    const mediaFactory = new MediaFactory(media[i], profile, i);
+    const mediaItem = mediaFactory.createMediaItem();
     sum_likes += media[i].likes;
-
-    if ("image" in media[i]) {
-      mediaItem.innerHTML = `
-        <div class="photograph-media-item-container" aria-label="Voir l'image ${media[i].title}">
-          <img class="media-item" src="assets/images/${profile.firstName}/${media[i].image}" alt="${media[i].title}" tabindex="0" role="button"/>
-        </div>
-    `;
-    } else if ("video" in media[i]) {
-      mediaItem.innerHTML = `
-        <div class="photograph-media-item-container" aria-label="Voir la vidéo ${media[i].title}">
-          <video class="media-item" src="assets/images/${profile.firstName}/${media[i].video}" alt="${media[i].title}">
-          </video>
-          <i class="fa-solid fa-play media-item-play" aria-label="Lancer la vidéo ${media[i].title}" role="button" tabindex="0"></i>
-        </div>
-      `;
-    }
-    mediaItem.innerHTML += `
-    <div class="photograph-media-item-info">
-        <h3>${media[i].title}</h3>
-        <p ><span aria-label="${media[i].likes} mentions j'aime">${media[i].likes}</span> <i class="fa-regular fa-heart" aria-label="Aimer l'image ${media[i].title}" role="button" tabindex="0"></i></p>
-      </div>
-    `;
-
-    mediaItem
-      .querySelectorAll(".media-item, h3, .media-item-play")
-      .forEach((element) => {
-        element.addEventListener("click", () => {
-          openLightboxModal(i);
-        });
-      });
-
-    mediaItem
-      .querySelectorAll(".media-item, h3, .media-item-play")
-      .forEach((element) => {
-        element.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            openLightboxModal(i);
-          }
-        });
-      });
-
-    mediaItem
-      .querySelector(".photograph-media-item-info i")
-      .addEventListener("click", () => {
-        addLike(mediaItem.id);
-      });
-
-    mediaItem
-      .querySelector(".photograph-media-item-info i")
-      .addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          addLike(mediaItem.id);
-        }
-      });
     mediaSection.appendChild(mediaItem);
   }
 
@@ -150,6 +93,7 @@ function displaySortedMedia(photographer, sortValue) {
 // ------------------------ HANDLE EVENTS
 function addLike(mediaItemId) {
   const mediaItem = document.getElementById(mediaItemId);
+  console.log(mediaItemId);
   let mediaItemLikes = parseInt(
     mediaItem.querySelector(".photograph-media-item-info p").textContent
   );
