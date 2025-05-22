@@ -80,11 +80,30 @@ function updateLightboxContent(firstName, media, currentIndex) {
   lightboxModalMedia.innerHTML = "";
   if ("image" in media[currentIndex]) {
     lightboxModalMedia.innerHTML = `
-      <img src="assets/images/${firstName}/${media[currentIndex].image}" alt="${media[currentIndex].title}" />
+      <img 
+        src="assets/images/${firstName}/${media[currentIndex].image}" 
+        alt="${media[currentIndex].title}" 
+        tabindex="0"
+        aria-label="${media[currentIndex].title}. Image ${
+      currentIndex + 1
+    } sur ${
+      media.length
+    }. Utilisez les flèches gauche et droite pour naviguer entre les médias. Echape pour quitter la vue grand format."
+      />
     `;
   } else if ("video" in media[currentIndex]) {
     lightboxModalMedia.innerHTML = `
-      <video src="assets/images/${firstName}/${media[currentIndex].video}" alt="${media[currentIndex].title}" controls/>
+      <video 
+        src="assets/images/${firstName}/${media[currentIndex].video}" 
+        alt="${media[currentIndex].title}" 
+        controls 
+        tabindex="0"
+        aria-label="${media[currentIndex].title}. Vidéo ${
+      currentIndex + 1
+    } sur ${
+      media.length
+    }. Utilisez les flèches gauche et droite pour naviguer entre les médias. Echape pour quitter la vue grand format."
+      />
     `;
   }
 
@@ -92,4 +111,10 @@ function updateLightboxContent(firstName, media, currentIndex) {
   lightboxModalMedia.innerHTML += `
     <p class="lightbox-modal-media-title" aria-label="Titre du média : ${media[currentIndex].title}">${media[currentIndex].title}</p>
   `;
+
+  // Focus the media element
+  const mediaElement = lightboxModalMedia.querySelector("img, video");
+  if (mediaElement) {
+    mediaElement.focus();
+  }
 }
