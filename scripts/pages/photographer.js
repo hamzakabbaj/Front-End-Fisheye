@@ -1,7 +1,13 @@
 // ------------------------ FETCH DATA
 
 async function getPhotographer() {
-  const photographerId = window.location.search.split("=")[1];
+  let photographerId;
+  if (window.location.search.includes("id=")) {
+    photographerId = window.location.search.split("id=")[1];
+  } else {
+    window.location.href = "index.html";
+    return;
+  }
 
   try {
     const response = await fetch("data/photographers.json");
