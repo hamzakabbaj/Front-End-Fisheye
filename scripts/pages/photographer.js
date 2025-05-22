@@ -1,3 +1,5 @@
+// ------------------------ FETCH DATA
+
 async function getPhotographer() {
   const photographerId = window.location.search.split("=")[1];
   const response = await fetch("data/photographers.json");
@@ -13,6 +15,7 @@ async function getPhotographer() {
   return { profile, media };
 }
 
+// ------------------------ DISPLAY DATA
 function displayProfile(profile) {
   const profileSection = document.querySelector(".photograph-header");
   profile.firstName = profile.name.split(" ")[0].replace("-", " ");
@@ -126,6 +129,19 @@ function displayMedia(media, profile) {
   console.log(sum_likes);
 }
 
+function displaySortedMedia(photographer, sortValue) {
+  const media = photographer.media;
+  if (sortValue === "likes") {
+    media.sort((a, b) => b.likes - a.likes);
+  } else if (sortValue === "date") {
+    media.sort((a, b) => new Date(b.date) - new Date(a.date));
+  } else if (sortValue === "title") {
+    media.sort((a, b) => a.title.localeCompare(b.title));
+  }
+  displayMedia(media, photographer.profile);
+}
+
+// ------------------------ HANDLE EVENTS
 function addLike(mediaItemId) {
   const mediaItem = document.getElementById(mediaItemId);
   let mediaItemLikes = parseInt(
@@ -166,33 +182,6 @@ function addLike(mediaItemId) {
     });
 }
 
-function displaySortedMedia(photographer, sortValue) {
-  const media = photographer.media;
-  if (sortValue === "likes") {
-    media.sort((a, b) => b.likes - a.likes);
-  } else if (sortValue === "date") {
-    media.sort((a, b) => new Date(b.date) - new Date(a.date));
-  } else if (sortValue === "title") {
-    media.sort((a, b) => a.title.localeCompare(b.title));
-  }
-  displayMedia(media, photographer.profile);
-}
-
-function setMedia(media) {
-  const mediaSection = document.querySelector(".photograph-media");
-  mediaSection.dataset.media = JSON.stringify(media);
-}
-
-function getMedia() {
-  const mediaSection = document.querySelector(".photograph-media");
-  return JSON.parse(mediaSection.dataset.media);
-}
-
-function getProfile() {
-  const profileSection = document.querySelector(".photograph-header");
-  return JSON.parse(profileSection.dataset.profile);
-}
-
 function handleContactForm() {
   const contactForm = document.getElementById("contact-form");
   contactForm.addEventListener("submit", (e) => {
@@ -225,6 +214,25 @@ function handleContactForm() {
   });
 }
 
+// ------------------------ GETTERS & SETTERS
+
+function getMedia() {
+  const mediaSection = document.querySelector(".photograph-media");
+  return JSON.parse(mediaSection.dataset.media);
+}
+
+function getProfile() {
+  const profileSection = document.querySelector(".photograph-header");
+  return JSON.parse(profileSection.dataset.profile);
+}
+
+function setMedia(media) {
+  const mediaSection = document.querySelector(".photograph-media");
+  mediaSection.dataset.media = JSON.stringify(media);
+}
+
+// ------------------------ INIT
+
 async function init() {
   const photographer = await getPhotographer();
   displayProfile(photographer.profile);
@@ -249,5 +257,7 @@ async function init() {
 
   return photographer;
 }
+
+// ------------------------ RUN
 
 init();
